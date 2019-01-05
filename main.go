@@ -1,8 +1,8 @@
 package main
 
 import (
-	"cloud2podcastdownloader/configReader"
-	"cloud2podcastdownloader/downloader"
+	"github.com/floge77/c2p/cloud2podcastdownloader/downloader"
+	"github.com/floge77/c2p/cloud2podcastdownloader/configReader"
 )
 
 func main() {

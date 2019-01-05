@@ -2,6 +2,7 @@ package downloader
 
 import (
 	"errors"
+	"fmt"
 	"log"
 	"net/url"
 	"os"
@@ -10,12 +11,12 @@ import (
 	"strings"
 )
 
-const youtubeDownloader = "/usr/local/bin/youtube-dl "
+const youtubeDownloader = "/usr/local/bin/youtube-dl"
 var allowedProviders = []string{"soundcloud", "mixcloud", "youtube"}
 
 type PodcastDownloader struct {
 	standardOptions, lengthFilter, downloadArchivePath, channelName, provider string
-	YoutubeDLCommand string
+	YoutubeDLCommand []string
 }
 
 func NewPodcastDownloader(minDurationInSeconds int, generalDownloadDirectory string, channelName string, playListToDownload string) *PodcastDownloader {
@@ -39,7 +40,8 @@ func NewPodcastDownloader(minDurationInSeconds int, generalDownloadDirectory str
 
 // youtube-dl is in Container available at: /usr/local/bin/youtube-dl
 func (p *PodcastDownloader) DownloadTracks() {
-	cmd := exec.Command(p.YoutubeDLCommand)
+	cmd := exec.Command(youtubeDownloader, p.YoutubeDLCommand...)
+	fmt.Printf("Running command: %v", cmd)
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	err := cmd.Run()
@@ -49,7 +51,8 @@ func (p *PodcastDownloader) DownloadTracks() {
 }
 
 func (p *PodcastDownloader) generateYoutubeDLCommand(playListToDownload string) {
-	p.YoutubeDLCommand = youtubeDownloader + p.standardOptions + p.lengthFilter + p.downloadArchivePath + p.channelName + playListToDownload
+	cmdString := p.standardOptions + p.lengthFilter + p.downloadArchivePath + p.channelName + playListToDownload
+	p.YoutubeDLCommand = strings.Split(cmdString, " ")
 }
 
 

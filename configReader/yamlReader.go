@@ -15,7 +15,7 @@ func NewYamlreader() *YamlReader {
 	return &YamlReader{}
 }
 
-func GetConfig(yamlPath string) (PodcastConfig) {
+func GetConfig(yamlPath string) PodcastConfig {
 	yamlReader := NewYamlreader()
 	config := PodcastConfig{}
 	config = yamlReader.ReadYamlfile(yamlPath, config)

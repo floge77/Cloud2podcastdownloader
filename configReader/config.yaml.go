@@ -10,7 +10,6 @@ type PodcastConfig struct {
 	PodcastsToServe       []*Podcastinfo `yaml:"podcasts"`
 }
 
-
 type PodcastItem struct {
 	Title, Channel, FileName string
 	FileSize                 int64
